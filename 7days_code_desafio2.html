@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script> 
+
+<style>
+.perg_bonus {
+  display: none;
+}
+
+
+</style>
+<title>7days Code Desafio 2</title>
+</head>
+<body>
+    <header>Formulário</header>
+<div class="container">
+
+    <div class="perguntas">
+        <p>Qual o seu nome?</p><input type="text" id="perg_nome">
+        <p>Quantos anos você tem?</p><input type="number" id="perg_idade">
+        <p>Qual linguagem de programação você está estudando?</p><input type="text" id="perg_estudo">
+        <br>
+        <span id="texto_form"></span>
+        <br>
+        <br>
+        <p class="perg_bonus">Você gosta de estudar <span id="info_ling"></span>? </p> 
+        <ul class="perg_bonus">
+        <li><input name="check" type="radio" id="sim"> SIM</li>
+        <li><input name="check" type="radio" id="nao"> NÃO</li>
+        <br>
+        <br>
+        <span id="texto_checklist"></span>
+        </ul>
+    </div>    
+</div>
+</body>
+<script>
+//variaveis das perguntas
+const nome = document.getElementById("perg_nome");
+const idade = document.getElementById("perg_idade");
+const lingEstudo = document.getElementById("perg_estudo");
+//variavel que fica a pergunta bonus
+const infoLingSpan = document.getElementById("info_ling");
+const simRadio = document.getElementById("sim");
+const naoRadio = document.getElementById("nao");
+const textoChecklist = document.getElementById("texto_checklist");
+// variavel texto alerta 
+const textoForm = document.getElementById("texto_form");
+//codigo para ocultar a pergunta bonus e desolcutar quanto a pergunta linguagem for respondida
+const pergBonus = document.querySelectorAll(".perg_bonus");
+
+
+//fução para desolcultar a pergunta bonues
+lingEstudo.addEventListener("input", function() {
+    const inputValue = lingEstudo.value;
+    if (inputValue !== "") {
+    for (const element of pergBonus) {
+      element.style.display = "block";
+    }
+    infoLingSpan.textContent = lingEstudo.value;
+
+} else {
+    for (const element of pergBonus) {
+      element.style.display = "none";
+    }
+  }
+});
+
+//inserir texto na tela no final da resposta dos questionarios
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  function atualizarMensagem() {
+    if (nome.value !== "" && idade.value !== "" && lingEstudo.value !== "") {
+      textoForm.textContent = "Olá " + nome.value + ", você tem " + idade.value + " anos e já está aprendendo " + lingEstudo.value + "!";
+    } else {
+      textoForm.textContent = "";
+    }
+  }
+
+  nome.addEventListener("input", atualizarMensagem);
+  idade.addEventListener("input", atualizarMensagem);
+  lingEstudo.addEventListener("input", atualizarMensagem);
+  
+  function respostaEstudo() {
+    if (simRadio.checked) {
+      textoChecklist.textContent = "Muito bom! Continue estudando e você terá muito sucesso.";
+    } else if (naoRadio.checked) {
+    const inputOutrasLinguagens = document.createElement("input");
+      inputOutrasLinguagens.type = "text";
+      textoChecklist.textContent = "Ahh que pena... Já tentou aprender outras linguagens?";
+      textoChecklist.appendChild(document.createElement("br"));
+      textoChecklist.appendChild(inputOutrasLinguagens);
+    } else {
+      textoChecklist.textContent = "";
+    }
+  }
+
+  simRadio.addEventListener("click", respostaEstudo);
+  naoRadio.addEventListener("click", respostaEstudo);
+});
+
+
+
+</script>
+
+
+</html>
