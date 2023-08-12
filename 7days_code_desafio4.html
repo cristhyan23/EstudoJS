@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="desafio 4 de 7 dayscode">
+    <title>7 Days Code - Desafio 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p , ul,li{
+            color: #666;
+        }
+
+        #nao_quero{
+            margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #dc3545;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+        #nao_quero:hover{
+            background-color: #c82333;
+        }
+        #comecar, #enviar, #recomecar {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#comecar:hover, #enviar:hover, #recomecar:hover {
+    background-color: #218838;
+}
+
+#recomecar{
+        background-color: blue!important;
+}
+
+
+    .jogo{
+        display: none;
+    }
+
+#parabens{
+    font-size: 5vw;
+    margin:0;
+    background-image: url(https://img.freepik.com/fotos-premium/silhueta-de-um-alpinista-com-uma-bandeira-no-topo-da-montanha-que-ele-subjugou-cena-conceitual_556258-1028.jpg?w=360);
+    background-size: cover;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color:transparent;
+    font-style: italic;
+    font-weight: bolder;
+    font-family: 'Courier New', Courier, monospace;
+}
+    </style>
+</head>
+<body>
+    <h1>Jogo da advinhação!</h1>
+    <p>hoje vamos ver quão bom você é de chute...</p>
+    <button id="comecar" onclick="jogar()">Começar</button>
+    <button id="nao_quero" onclick="aviso()">Não quero</button>
+    <div class="jogo">
+ 
+    </div>
+    <script>
+
+var btnEnvia;
+//função para se clicar em não quero trazer uma mensagem de alerta 
+function aviso(){
+
+ while(jogoView.firstChild){
+    jogoView.removeChild(jogoView.firstChild);
+ }
+    btnJogo.disabled = false;
+    alert("Que pena, esperamos poder jogar na proxima vez!");
+}
+
+//função da execução do jogo de adivinhação
+let tentativas = 3;
+var btnJogo = document.getElementById("comecar");
+const jogoView = document.querySelector(".jogo");
+
+function jogar(){
+    //desabilita o botão de jogar para funcionar só uma vez
+    btnJogo.disabled = true;
+    //habilita para visualização a div com os dados do jogo
+    jogoView.style.display = "block";
+ // Adiciona os elementos explicando o jogo
+    const expJogo = document.createElement("p");
+    expJogo.id = "expJogo";
+    expJogo.textContent ="Ótimo, vamos as regras, você terá 3 tentativas para advinhar um número que eu escolhi entre 0 e 10";
+    jogoView.appendChild(expJogo);
+
+    // mostra a view com as tentativas:
+    const viewTent = document.createElement("p");
+    viewTent.id ="viewTent";
+    viewTent.textContent = "Você ainda tem: "+tentativas+" Tentativas";
+    jogoView.appendChild(viewTent);
+
+// Campo para inserir o valor e solicitar para validar
+    const txtInserir = document.createElement("p");
+    txtInserir.textContent = "Digite o seu chute: ";
+    const valorInserido = document.createElement("input");
+    valorInserido.type = "number";
+    valorInserido.id ="valorInserido";
+    jogoView.appendChild(txtInserir);
+    jogoView.appendChild(valorInserido);
+
+// botão para enviar o chute
+    btnEnvia = document.createElement("button");
+    btnEnvia.textContent ="Enviar";
+    btnEnvia.id ="enviar";
+    btnEnvia.addEventListener("click", actJogo);
+    jogoView.appendChild(btnEnvia);
+
+// Criar lista histórico de chutes:
+var numHist = document.createElement("ul");
+numHist.textContent = "Números já chutados:";
+numHist.id ="numHist";
+jogoView.appendChild(numHist);   
+
+// botão recomeçar
+
+const btnRecomecar = document.createElement("button");
+            btnRecomecar.textContent ="Recomeçar";
+            btnRecomecar.id ="recomecar";
+            btnRecomecar.addEventListener("click",  recomecar);
+            jogoView.appendChild(document.createElement("br"));
+            jogoView.appendChild(btnRecomecar);
+            btnRecomecar.style.display = "none";  
+}
+
+
+
+    //varialvel do número escolhido pela maquina:
+var numMaquina = Math.floor(Math.random() * (10-1+1)+1);
+
+// ação do jogo para descobrir se o número é o correto
+let i = 1;
+function actJogo(){
+   
+    var btnReco = document.getElementById("recomecar");
+    var numUsuario = document.getElementById("valorInserido");
+    var listaHistorico = document.getElementById("numHist");
+    var valorHist = document.createElement("li");
+    valorHist.id = "historico";
+    valorHist.textContent ="número escolhido na tentativa "+i+" foi: "+ numUsuario.value;
+    listaHistorico.appendChild(valorHist); 
+
+        if (parseInt(numUsuario.value) === parseInt(numMaquina)){
+            alert("Parabéns Você Advinhou o meu número!");
+            valorInserido.value="";
+            i++;
+            tentativas--;
+            const txtParabens = document.createElement("p");
+            txtParabens.textContent = "Parabéns! você achou o número: "+ numMaquina;
+            txtParabens.id="parabens";
+            jogoView.appendChild(txtParabens);
+            btnReco.style.display = "block";
+        } else {
+            alert("Errou! Tente Novamente ")
+            i++;
+            tentativas--;
+            viewTent.textContent = "Você ainda tem: "+tentativas+" Tentativas";
+            valorInserido.value="";
+            if (tentativas === 0) {
+            alert("Suas tentativas acabaram. O número era " + numMaquina);
+            btnEnvia.style.display = "none";
+            btnReco.style.display = "block";  
+        }
+        }
+
+    }
+// função para reinicar as tentativas
+ 
+function recomecar(){
+    i = 1;
+    btnEnvia.style.display = "block";
+
+    var listHist2 = document.getElementById("numHist");
+    while (listHist2.children.length >= 1) {
+    listHist2.removeChild(listHist2.lastChild);
+}
+
+    var btnReco2 = document.getElementById("recomecar");
+
+    tentativas = 3;
+    btnReco2.style.display = "none";
+    viewTent.textContent = "Você ainda tem: "+tentativas+" Tentativas";
+    numMaquina = Math.floor(Math.random() * 10) + 1;
+
+    var txtParabens2 = document.getElementById("parabens");
+    jogoView.removeChild(txtParabens2);
+
+}
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <title>7 days code desafio 3</title>
+    <style>
+        /* Custom CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+    
+        .frontend_info,
+        .PergSeq,
+        .trilha,
+        .backend_info,#respostas_anteriores {
+            display: none;
+        }
+    
+ 
+    /* Estilos para a div .container */
+    .container {
+        margin: 0 auto;
+        padding: 20px;
+        max-width: 800px;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilos para a div .perg_inicial */
+    .perg_inicial {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .perg_inicial p {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .perg_inicial button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .perg_inicial button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Estilos para a div .trilha */
+    .trilha {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .trilha p {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Estilos para a lista de trilhas */
+    .frontend_info, .backend_info {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .frontend_info li,
+    .backend_info li {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+    /* Estilos para os inputs de rádio */
+    .frontend_info input[type="radio"],
+    .backend_info input[type="radio"] {
+        margin-right: 5px;
+    }
+
+    /* Estilos para a div .PergSeq */
+    .PergSeq {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #f8f9fa;
+    }
+
+    /* Estilos para a lista de respostas anteriores */
+    #respostas_anteriores {
+        list-style-type: none;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    #respostas_anteriores li {
+        margin: 5px 0;
+    }
+
+    /* Estilos para mensagens de finalização */
+    #msg_fim {
+        font-style: italic;
+        color: #007bff;
+      
+    }
+
+    /* ... (seus estilos CSS existentes) */
+
+    /* Estilos para os IDs especificados */
+    #continua_perg {
+        margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #28a745;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #continua_perg:hover {
+        background-color: #218838;
+    }
+
+    #pergunta_seq {
+        font-size: 18px;
+        font-weight: bold;
+        
+    }
+
+    #resposta_seq {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #fim_perg {
+        margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #dc3545;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #fim_perg:hover {
+        background-color: #c82333;
+    }
+
+
+
+
+
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="perg_inicial">
+            <p>Qual área deseja seguir?</p>
+            <button onclick="showFrontEndInfo()" id="front_end">Front-End</button>
+            <button onclick="showBackEndInfo()" id="back_end">Back-End</button>
+        </div>
+
+        <div class="trilha">
+            <p>Qual trilha deseja aprender?</p>
+            <ol class="frontend_info">
+                <li><input name="frontend" type="radio" id="react" onclick="pergSequencial()">React</li>
+                <li><input name="frontend" type="radio" id="vue" onclick="pergSequencial()">Vue</li>
+            </ol>
+            <ol class="backend_info">
+                <li><input name="frontend" type="radio" id="c#" onclick="pergSequencial()">C#</li>
+                <li><input name="frontend" type="radio" id="java" onclick="pergSequencial()">Java</li>
+            </ol>
+        </div>
+
+        <div id="perSeqFront" class="PergSeq"><br></div>
+        <ul id="respostas_anteriores">Respostas Anteriores: Qual seria seu foco?</ul>
+    </div>
+
+    <script type="text/javascript">
+        // Função para exibir as informações do FrontEnd
+        var frontEndButton = document.getElementById("front_end");
+    var backEndButton = document.getElementById("back_end");
+        var pergunta = "Qual mais seria seu foco?";
+
+        function showFrontEndInfo() {
+        frontEndButton.disabled = true;
+        backEndButton.disabled = true;
+
+            const frontEndInfo = document.querySelector(".frontend_info");
+            const trilha = document.querySelector(".trilha");
+            frontEndInfo.style.display = "block";
+            trilha.style.display = "block";
+        }
+
+                // Função para exibir as informações do BackEnd
+        function showBackEndInfo() {
+        frontEndButton.disabled = true;
+        backEndButton.disabled = true;
+            const backEndInfo = document.querySelector(".backend_info");
+            backEndInfo.style.display = "block";
+            const trilha = document.querySelector(".trilha");
+            trilha.style.display = "block";
+        }
+
+        //função para dar sequencia nas perguntas
+
+
+            var ipReact = document.getElementById("react");
+            var ipVue = document.getElementById("vue");
+            var ipCSharp = document.getElementById("c#");
+            var ipJava = document.getElementById("java");
+
+ function pergSequencial() {
+     if (ipReact.checked || ipVue.checked ||ipCSharp.checked || ipJava.checked) {
+        ipReact.disabled = true;
+        ipVue.disabled = true;
+        ipCSharp.disabled = true;
+        ipJava.disabled = true;
+    // Selecionar a div .PergSeq
+         const pergSeq = document.querySelector(".PergSeq");
+            pergSeq.style.display = "block";
+// Criar elementos
+const spanPergSequencial = document.createElement("span");
+spanPergSequencial.textContent = pergunta;
+spanPergSequencial.id = "pergunta_seq";
+
+
+const inputPergSequencial = document.createElement("input");
+inputPergSequencial.type = "text";
+inputPergSequencial.id ="resposta_seq";
+
+
+const buttonSim = document.createElement("button");
+buttonSim.textContent = "Confirmar";
+buttonSim.id="continua_perg";
+const buttonNao = document.createElement("button");
+buttonNao.textContent = "Não Sei Mais";
+buttonNao.id ="fim_perg";
+
+// Anexar elementos à div .PergSeq
+
+pergSeq.appendChild(spanPergSequencial);
+pergSeq.appendChild(inputPergSequencial);
+pergSeq.appendChild(buttonSim);
+pergSeq.appendChild(buttonNao);
+
+// Função a ser executada ao clicar no botão Confirmar
+       // Referência para o novo span que será criado
+       const historicoResp = document.getElementById("respostas_anteriores");
+        // Função a ser executada ao clicar no botão Confirmar
+        buttonSim.addEventListener("click", function () {
+        
+        spanPergSequencial.textContent = "Legal que está focando em: " + inputPergSequencial.value + ", mas " + pergunta;
+        
+    historicoResp.style.display = "block";
+    
+    let varHistorico = document.createElement("li");
+    varHistorico.textContent = inputPergSequencial.value;
+    
+    historicoResp.appendChild(varHistorico);
+    
+    inputPergSequencial.value = '';
+    });
+
+
+// Função a ser executada ao clicar no botão Não Sei Mais
+buttonNao.addEventListener("click", function () {
+    const btNaoClicked = document.createElement("span");
+    btNaoClicked.textContent = "Excelente, continue dedicado a seus estudos";
+    btNaoClicked.id ="msg_fim";
+    pergSeq.appendChild(btNaoClicked);
+
+    pergSeq.removeChild(spanPergSequencial);
+pergSeq.removeChild(inputPergSequencial);
+pergSeq.removeChild(buttonSim);
+pergSeq.removeChild(buttonNao);
+});
+
+     }}
+
+
+    </script>
+</body>
+</html>
