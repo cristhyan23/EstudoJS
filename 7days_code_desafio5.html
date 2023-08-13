@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Exemplo de página HTML com meta, script e style">
+    <title>7 days code desafio 5</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p,ul,li {
+            color: #666;
+        }
+
+        #nao{
+            margin-top: 15px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #dc3545;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        }
+        #nao:hover{
+            background-color: #c82333;
+        }
+        #sim{
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#sim:hover{
+    background-color: #218838;
+}
+
+.adicionar_item{ display: none;}
+    </style>
+</head>
+<body>
+    <h1>Lista de Compras</h1>
+    <p>Deseja adicionar itens na lista de compras?</p>
+    <button onclick="btnSim()" id="sim">Sim</button>
+    <button onclick="btnNao()" id="nao">Não</button>
+    <div class="adicionar_item">
+        <p>Digite o item a ser adicionado:</p>
+        <input type="text" id="itemDaLista">
+        <ul>
+            <p>Selecionar a categoria do item:</p>
+            <li><input type="radio" name="categoria" id="fruta">Frutas</li>
+            <li><input type="radio" name="categoria" id="laticinios">Laticícios</li>
+            <li><input type="radio" name="categoria" id="congelados">Congelados</li>
+        </ul>
+        <button onclick="btnAdicionar()" id="sim">Adicionar</button>
+    </div>
+
+    <div class="lista"></div>
+
+<script type ="text/javascript">
+//vetores da lista:
+var frutas = new Array();
+var laticinios = new Array();
+var congelados = new Array();
+// variavel classe de listas
+const listaCompras = document.querySelector(".lista");
+
+const addItemLista = document.querySelector(".adicionar_item");
+//ação de adicionar o texto com do item e selecionar a categoria
+
+// variaveis do item input e categorias
+var item = document.getElementById("itemDaLista");
+var catFrutas = document.getElementById("fruta");
+var catLaticinios = document.getElementById("laticinios");
+var catCongelados = document.getElementById("congelados");
+
+// função botão sim 
+function btnSim(){
+    addItemLista.style.display = "block";
+    item.value ='';
+    catCongelados.checked =false;
+    catFrutas.checked =false
+    catLaticinios.checked =false
+
+    if(listaCompras.style.display = "block"){
+        listaCompras.style.display = "none";
+    }
+
+}
+
+// função para adicionar itens nos vetores:
+
+function btnAdicionar(){
+    if(catFrutas.checked){
+        if(item.value==""){
+        alert("favor digitar o nome do item");
+    }else{
+        frutas.push(item.value);
+        addItemLista.style.display = "none";
+    }
+    } else if(catLaticinios.checked){
+        if(item.value==""){
+        alert("favor digitar o nome do item");
+    }else{
+        laticinios.push(item.value);
+        addItemLista.style.display = "none";
+    }
+    }else if (catCongelados.checked){
+        if(item.value==""){
+        alert("favor digitar o nome do item");
+    }else{
+        congelados.push(item.value);
+        addItemLista.style.display = "none";
+    }
+    }else{
+        alert("Por favor selecionar uma categoria");
+    }
+
+
+}
+
+    function btnNao(){
+        addItemLista.style.display = "none";
+        listaCompras.style.display = "block";
+        listaCompras.textContent = "Lista de Compras";
+        
+
+//Adicionar  a lista das frutas
+var listaFrutas = document.createElement("ul");
+listaFrutas.textContent ="Frutas:";
+listaCompras.appendChild(listaFrutas);
+for (let i = 0; i < frutas.length; i++) {
+        let itemLista1 = document.createElement("li");
+        itemLista1.textContent = frutas[i];
+        listaFrutas.appendChild(itemLista1);
+        let itemCheck1 = document.createElement("input");
+        itemCheck1.type ="checkbox";
+        itemCheck1.name ="check";
+        itemLista1.appendChild(itemCheck1);
+    }
+//Adicionar  a lista de laticinios
+var listaLat = document.createElement("ul");
+listaLat.textContent ="Laticinios:";
+listaCompras.appendChild(listaLat);
+for (let i = 0; i < laticinios.length; i++) {
+        let itemLista2 = document.createElement("li");
+        itemLista2.textContent = laticinios[i];
+        listaLat.appendChild(itemLista2);
+        let itemCheck2 = document.createElement("input");
+        itemCheck2.type ="checkbox";
+        itemCheck2.name ="check";
+        itemLista2.appendChild(itemCheck2);
+    }
+//Adicionar  a lista de congelados
+var listaCong = document.createElement("ul");
+listaCong.textContent ="Congelados:";
+listaCompras.appendChild(listaCong);
+for (let i = 0; i < congelados.length; i++) {
+        let itemLista3 = document.createElement("li");
+        itemLista3.textContent = congelados[i];
+        listaCong.appendChild(itemLista3);
+        let itemCheck3 = document.createElement("input");
+        itemCheck3.type ="checkbox";
+        itemCheck3.name ="check";
+        itemLista3.appendChild(itemCheck3);
+    }
+var btnApagar = document.createElement("button");
+btnApagar.id = "nao";
+btnApagar.textContent ="Apagar";
+btnApagar.addEventListener("click", apagar);
+listaCompras.appendChild(btnApagar);
+
+function apagar() {
+    // Pegar todos os checkboxes marcados
+    const checkboxes = document.querySelectorAll('input[name="check"]:checked');
+
+    if (checkboxes.length > 0) {
+        checkboxes.forEach(checkbox => {
+            const listItem = checkbox.parentElement;
+            const list = listItem.parentElement;
+            const category = list.textContent.trim();
+
+            // Encontrar o índice do item na array correspondente
+            let itemIndex;
+            if (category.startsWith("Frutas:")) {
+                itemIndex = frutas.indexOf(listItem.textContent);
+                if (itemIndex !== -1) {
+                    frutas.splice(itemIndex, 1); // Remover 1 item a partir do índice
+                }
+            } else if (category.startsWith("Laticinios:")) {
+                itemIndex = laticinios.indexOf(listItem.textContent);
+                if (itemIndex !== -1) {
+                    laticinios.splice(itemIndex, 1);
+                }
+            } else if (category.startsWith("Congelados:")) {
+                itemIndex = congelados.indexOf(listItem.textContent);
+                if (itemIndex !== -1) {
+                    congelados.splice(itemIndex, 1);
+                }
+            }
+
+            // Remover o item da lista
+            list.removeChild(listItem);
+        });
+    } else {
+        alert("Nenhum item para apagar foi selecionado.");
+    }
+}
+
+
+
+
+}
+
+    
+    </script>
+
+</body>
+</html>
